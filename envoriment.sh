@@ -1,0 +1,51 @@
+#语言选项,必须设置，否则会出现HashTable的NPE异常
+export LANG=C
+
+#Bootstrap JDK的安装路径,必须设置
+export ALT_BOOTDIR=/home/q/java/jdk1.6.0_45
+
+#允许自动下载依赖
+export ALLOW_DOWNLOADS=true
+
+#并行编译的线程数，设置为和cpu一致
+export HOTSPOT_BUILD_JOBS=4
+export ALT_PARALLEL_COMPILE_JOBS=4
+
+#比较本次build出来的映像与先前版本的差异,这对我们来说没有意义,
+#必须设置为false,否则sanity检查会缺少先前版本JDK的映像的错误提示,
+#如果已经设置dev或者DEV_COMPARE_IMAGES=true
+export SKIP_COMPARE_IMAGES=true
+
+#使用预编译头文件,不加这个编译会更慢一些
+export USE_PRECOMPILED_HEADER=true
+
+#要编译的内容
+export BUILD_LANGTOOLS=true
+#export BUILD_JAXP=false
+#export BUILD_JAXWS=false
+#export BUILD_CORBA=false
+export BUILD_HOTSPOT=true
+export BUILD_JDK=true
+
+#要编译的版本
+#export SKIP_DEBUG_BUILD=false
+#export SKIP_FASTDEBUG_BUILD=true
+#export DEBUG_NAME=debug
+
+#把它设置为false可以避开javaws和浏览器Java插件之类的部分的build
+BUILD_DEPLOY=false
+
+#把它设置为fale就不会build出安装包.因为安装包里有些奇怪的依赖，
+#但即便不build出它也能得到完整的JDK镜像,所以还是别build的好
+BUILED_INSTALL=false
+
+#便以结果所存放的路径
+export ALT_OUTPUTDIR=/home/q/openjdk7
+
+#这两个环境变量要去掉
+unset JAVA_HOME
+unset CLASSPATH
+
+ALT_CUPS_HEADERS_PATH=$CUPS_HOME/include
+
+make 2>&1 | tee $ALT_OUTPUTDIR/build.log
